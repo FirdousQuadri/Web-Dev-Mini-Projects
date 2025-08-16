@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        nav{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: rgb(4, 181, 4);
+        }
+        ul{
+            background-color: pink;
+        }
+
+         li {
+            display: flex;
+            display: inline;
+            margin: 100px;
+            background-color: pink;
+            font-size: 30px;
+           
+        }
+
+        .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .box1 {
+            margin-top: 30px;
+            width: 32%;
+            height: 400px;
+            background-color: rgb(238, 117, 200);
+            margin-left: 24px;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 2px solid #333;
+            box-sizing: border-box;
+            font-size: 28px;
+            margin-right: 200px;
+            overflow: auto;
+        }
+
+        .box2 {
+            margin-top: 30px;
+            width: 32%;
+            height: 400px;
+            background-color: rgb(92, 168, 231);
+            margin-right: 3px;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 2px solid #333;
+            box-sizing: border-box;
+            font-size: 28px;
+            margin-left: 200px;
+            overflow: auto;
+        }
+
+        .box3 {
+            width: 70%;
+            height: 100px;
+            background-color: rgb(13, 1, 6);
+            color: white;
+            margin-left: 220px;
+            padding: 3px;
+            display: flex;
+            justify-content: center;
+            align-self: right;
+            border: 2px solid #333;
+            border-radius: 30px;
+            font-size: xx-large;
+            text-align: center;
+          
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            display: flex;
+            left: 1210px; 
+            bottom: 24px;  
+          
+        }
+
+        h2 {
+            width: 20%;
+            height: 50px;
+            background-color: rgb(233, 209, 27);
+            color: black;
+            margin-left: 580px;
+            padding: 3px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h3{
+            text-align: end;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Services</li>
+                <li>Contact Us</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="boxes">
+        <div class="box1">Web development is the process of creating and maintaining websites and web applications, encompassing the design, coding, and functionality that users see and interact with online, utilizing a combination of programming languages like HTML, CSS, and JavaScript to bring a digital vision to life; essentially, it involves building the "front-end" user interface that people see on a website, as well as the "back-end" server-side logic that powers the website's functionality behind the scenes, allowing users to perform actions like logging in, submitting forms, or accessing data.  </div>
+        <div class="box2">Key aspects of web development:
+           <pre></pre> Front-end Development:
+            This focuses on the visual elements users directly interact with, including the layout, design, and behavior of a website, primarily using HTML for structure, CSS for styling, and JavaScript for dynamic interactions. </pre> 
+           <pre></pre> Back-end Development:
+            This deals with the server-side logic that processes data, handles user requests, and interacts with databases, often utilizing languages like Python, PHP, Ruby, or Node.js, alongside frameworks like Django, Laravel, or Express.js. 
+           
+        </pre></div>
+        <div class="box3">Welcome To Firdous Web Development Express 
+           
+        </div>
+
+    </div>
+    <img class="logo" src="circle.webp" alt="logo">
+    <footer>
+        <h2>Thank You For Visiting</h2>
+        <h3>All Rights Reserved &copy;</h3>
+    </footer>
+
+</body>
+
+</html>
