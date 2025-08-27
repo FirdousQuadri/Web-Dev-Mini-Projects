@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            color: #4e4e4e;
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], select {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 2px solid #2575fc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f3f3f3;
+            color: #333;
+            outline: none;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border: 2px solid #6a11cb;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6a11cb;
+        }
+
+        button:active {
+            background-color: #3a6cf5;
+        }
+
+        .news {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .news-item {
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .news-item:hover {
+            transform: scale(1.03);
+        }
+
+        .news-item h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .news-item p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .news-item small {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .loading {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>News App</h1>
+        <label for="location">Enter Location (e.g. city or country):</label>
+        <input type="text" id="location" placeholder="Location" required>
+        
+        <label for="news-type">Choose News Type:</label>
+        <select id="news-type">
+            <option value="national">National</option>
+            <option value="international">International</option>
+        </select>
+        
+        <button onclick="getNews()">Get News</button>
+        
+        <div class="news" id="news"></div>
+        <div id="error-message" class="error"></div>
+    </div>
+
+    <script>
+        const apiKey = '3hzbsnQxJq0LFY8AtnBEx9sKBNhoW3s8bhX4KmTwRgwRO8UP'; // Replace with your Currents API key
+        const apiUrl = 'https://api.currentsapi.services/v1/latest-news';
+
+        async function getNews() {
+            const location = document.getElementById('location').value.trim();
+            const newsType = document.getElementById('news-type').value;
+            const newsContainer = document.getElementById('news');
+            const errorMessageContainer = document.getElementById('error-message');
+            
+            // Clear previous results and error message
+            newsContainer.innerHTML = '';
+            errorMessageContainer.innerHTML = '';
+
+            if (!location) {
+                errorMessageContainer.innerHTML = 'Please enter a location.';
+                return;
+            }
+
+            // Show loading message
+            newsContainer.innerHTML = '<p class="loading">Loading...</p>';
+
+            // Construct API URL based on user input
+            const url = `${apiUrl}?keywords=${encodeURIComponent(location)}&apiKey=${apiKey}`;
+
+            console.log('Fetching data from:', url); // Debugging log
+
+            try {
+                const response = await fetch(url);
+                console.log('Response Status:', response.status); // Debugging log to check if the response is ok
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('API Response:', data); // Debugging log
+
+                // Check if we have articles
+                if (data.status === 'ok' && data.news.length > 0) {
+                    data.news.forEach(article => {
+                        const articleDiv = document.createElement('div');
+                        articleDiv.classList.add('news-item');
+                        articleDiv.innerHTML = `
+                            <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                            <p>${article.description || 'No description available.'}</p>
+                            <small>Source: ${article.source}</small>
+                        `;
+                        newsContainer.appendChild(articleDiv);
+                    });
+                } else {
+                    newsContainer.innerHTML = 'No news found for this location or category.';
+                }
+
+            } catch (error) {
+                console.error('Error:', error); // More detailed error logging
+                errorMessageContainer.innerHTML = `Error fetching news. Please try again later. Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
