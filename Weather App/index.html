@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .weather-container {
+            width: 350px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #333;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #weather-info {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        #weather-info p {
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1>Weather App</h1>
+        <div class="input-container">
+            <input type="text" id="city" placeholder="Enter city">
+            <button id="get-weather-btn">Get Weather</button>
+        </div>
+        <div id="weather-info">
+            <h2 id="city-name">City: </h2>
+            <p id="temperature">Temperature: </p>
+            <p id="condition">Condition: </p>
+            <p id="aqi">Air Quality Index: </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('get-weather-btn').addEventListener('click', getWeather);
+
+        function getWeather() {
+            const city = document.getElementById('city').value;
+            if (city === '') {
+                alert('Please enter a city');
+                return;
+            }
+
+            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=a5f79ae42b494f2682870316252501&q=${city}&aqi=yes`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('City not found. Please try again.');
+                        return;
+                    }
+
+                    const cityName = data.location.name;
+                    const temperature = data.current.temp_c + '°C';
+                    const condition = data.current.condition.text;
+                    const aqi = data.current.air_quality.pm10;
+
+                    // Display the data
+                    document.getElementById('city-name').textContent = `City: ${cityName}`;
+                    document.getElementById('temperature').textContent = `Temperature: ${temperature}`;
+                    document.getElementById('condition').textContent = `Condition: ${condition}`;
+                    document.getElementById('aqi').textContent = `Air Quality Index (PM10): ${aqi}`;
+
+                    // Show the weather info
+                    document.getElementById('weather-info').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Failed to retrieve weather data: ' + error);
+                });
+        }
+    </script>
+</body>
+</html>
